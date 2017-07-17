@@ -1,4 +1,4 @@
-#OSRS Wiki Scraper
+# OSRS Wiki Scraper
 
 Python3 script that allows for easy access to Oldschool Runescape NPC drops.
 
