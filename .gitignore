@@ -1,0 +1,8 @@
+*.pyc
+*~
+__pycache__
+*.sh
+*.txt
+*.dat
+nohup.out
+
