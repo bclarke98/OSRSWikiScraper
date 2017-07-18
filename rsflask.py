@@ -64,9 +64,11 @@ def get_drop_table(boss, icons=True):
     ii = ii[1::2]
     # remove any entries that are empty
     ii = [zz for zz in ii if len(zz.strip()) > 0]
-    n = [zz for zz in n if len(zz.strip()) > 0]
+    n = [zz for zz in n if len(zz.strip().replace('[','').replace(']','')) > 2]
     q = [zz for zz in q if len(zz.strip()) > 0]
     h = [zz for zz in h if len(zz.strip()) > 0]
+    print(len(ii), len(n), len(q), len(h))
+    print(n)
     # first line is the NPC Name, NPC Image
     csv = '%s,%s \n' % (boss, ni)
     # if there are no items in the array, it couldnt find the NPC
@@ -101,4 +103,5 @@ def handle():
     return get_drop_table(r, icon)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000)
+    # app.run(host='0.0.0.0', port=8000)
+    print(get_drop_table('Zilyana'))
