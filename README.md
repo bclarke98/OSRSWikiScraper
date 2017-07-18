@@ -9,7 +9,7 @@ This script was designed to help developers dynamically pull RuneScape NPC drops
 If you want to use host your own version, take note that it runs on port 8000.
 
 
-If you don't want to host your own server, use the following request: rs.d3x.me:8000/droptable?=NPC_NAME
+If you don't want to host your own server, use the following request: rs.d3x.me:8000/droptable?npc=NPC_NAME
 
 The NPC_NAME must match the wiki URL. For example, a green dragon's wiki page is oldschoolrunescape.wikia.com/wiki/Green_dragon
 
