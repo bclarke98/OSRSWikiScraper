@@ -103,5 +103,4 @@ def handle():
     return get_drop_table(r, icon)
 
 if __name__ == '__main__':
-    # app.run(host='0.0.0.0', port=8000)
-    print(get_drop_table('Zilyana'))
+    app.run(host='0.0.0.0', port=8000)

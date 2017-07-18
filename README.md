@@ -18,3 +18,9 @@ Therefore, NPC_NAME must be Green_dragon.
 
 
 Required Modules: Requests, lxml, Flask
+
+
+# Known Issues: 
+
+
+- Unable to load data from certain mirror wiki pages (/wiki/Fanatic vs. /wiki/Chaos_Fanatic)
