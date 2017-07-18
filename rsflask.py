@@ -8,7 +8,7 @@
 # If you want to use host your own version, take note that it runs on port 8000
 
 # If you don't want to host your own server, use the following request:
-# rs.d3x.me:8000/droptable?=NPC_NAME
+# rs.d3x.me:8000/droptable?npc=NPC_NAME
 
 # Return Format:
 # [LINE 1]:      NPC_NAME       ,  NPC_IMAGE_LINK   
@@ -63,12 +63,15 @@ def get_drop_table(boss, icons=True):
     # item images kept giving 2 sources per item, we only want odd numbered indices 
     ii = ii[1::2]
     # remove any entries that are empty
+    ii = [zz for zz in ii if len(zz.strip()) > 0]
+    n = [zz for zz in n if len(zz.strip()) > 0]
+    q = [zz for zz in q if len(zz.strip()) > 0]
     h = [zz for zz in h if len(zz.strip()) > 0]
     # first line is the NPC Name, NPC Image
     csv = '%s,%s \n' % (boss, ni)
     # if there are no items in the array, it couldnt find the NPC
     if len(n) == 0:
-        return 'Error getting NPC data'
+        return 'Found no results for query: "%s"' % boss
     # format the string based on whether or not the user wants icons included
     for i in range(len(n)):
         csv += '%s,%s,%s,%s \n' % (ii[i].strip(), n[i].strip(), q[i].strip().replace(',', ''), h[i].strip().replace(',', '')) if icons else '%s,%s,%s \n' % (n[i].strip(), q[i].strip().replace(',', ''), h[i].strip().replace(',', ''))
