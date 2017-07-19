@@ -19,6 +19,7 @@ Required Modules: Requests, lxml, Flask (only necessary if you want to actually 
 
 # Command Line Parameters
 
+`
 - -h, --help    prints parameters to console
 - -s            runs flask server on local computer to handle GET requests
 - -i            specify local ip to run the server on (default 0.0.0.0)
@@ -27,7 +28,7 @@ Required Modules: Requests, lxml, Flask (only necessary if you want to actually 
 - -o            specify file output path (default NPC_NAME.csv)
 - -w            add this parameter if running from a Windows machine
 - -c            if included, CSV output will not contain image icon URLs
-
+`
 
 # Known Issues: 
 
