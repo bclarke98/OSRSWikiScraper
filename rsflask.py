@@ -10,12 +10,12 @@ from lxml import html
 parser = argparse.ArgumentParser()
 
 parser.add_argument('-s', help='runs flask server on local computer to handle GET requests', action='store_true')
-parser.add_argument('-i', help='specify local ip to run on (default 0.0.0.0)', default='0.0.0.0')
+parser.add_argument('-i', help='specify local ip to run the server on (default 0.0.0.0)', default='0.0.0.0')
 parser.add_argument('-p', help='specify port to run the server on (default 8000)', type=int, default=8000)
-parser.add_argument('-n', help='npc name to search (exits after results print, does not run server)')
-parser.add_argument('-o', help='specifies file output path (default NPC_NAME.dat)')
-parser.add_argument('-w', help='add this parameter if this script is being run from a windows machine', action='store_true')
-parser.add_argument('-c', help='if included, drop table output will not include icon image URL', action='store_true')
+parser.add_argument('-n', help='npc name to search (does not run flask server, saves CSV with output)')
+parser.add_argument('-o', help='specifies file output path (default NPC_NAME.csv)')
+parser.add_argument('-w', help='add this parameter if running from a Windows machine', action='store_true')
+parser.add_argument('-c', help='if included, CSV output will not contain icon image URLs', action='store_true')
 
 args = parser.parse_args()
 
