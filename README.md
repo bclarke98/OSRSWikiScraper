@@ -20,7 +20,7 @@ Required Modules: Requests, lxml, Flask (only necessary if you want to actually 
 # Command Line Parameters
 
 
-- -h,       &nbsp;&nbsp;&nbsp;prints parameters to console
+- -h        &nbsp;&nbsp;&nbsp;prints parameters to console
 - -s        &nbsp;&nbsp;&nbsp;runs flask server on local computer to handle GET requests
 - -i        &nbsp;&nbsp;&nbsp;specify local ip to run the server on (default 0.0.0.0)
 - -p        &nbsp;&nbsp;&nbsp;specify port to run the server on (default 8000)
