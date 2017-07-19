@@ -67,8 +67,6 @@ def get_drop_table(boss, icons=True):
     n = [zz for zz in n if len(zz.strip().replace('[','').replace(']','')) > 2]
     q = [zz for zz in q if len(zz.strip()) > 0]
     h = [zz for zz in h if len(zz.strip()) > 0]
-    print(len(ii), len(n), len(q), len(h))
-    print(n)
     # first line is the NPC Name, NPC Image
     csv = '%s,%s \n' % (boss, ni)
     # if there are no items in the array, it couldnt find the NPC
