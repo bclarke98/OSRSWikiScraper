@@ -4,5 +4,6 @@ __pycache__
 *.sh
 *.txt
 *.dat
+*.bkp
 nohup.out
 bkp.py
