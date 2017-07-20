@@ -54,7 +54,8 @@ def get_drop_table(boss, icons=True):
     # remove any entries that are empty
     ii = [zz for zz in ii if len(zz.strip()) > 0]
     n = [zz for zz in n if len(zz.strip().replace('[','').replace(']','')) > 2]
-    q = [zz for zz in q if len(zz.strip()) > 0]
+    # the wiki uses the unicode character '–' to separate a range of drops and unicode likes to break other peoples' programs, so it's getting replaced with the normal '-'
+    q = [zz.replace('–','-') for zz in q if len(zz.strip()) > 0]
     h = [zz for zz in h if len(zz.strip()) > 0]
     # first line is the NPC Name, NPC Image
     csv = '%s,%s \n' % (boss, ni)
