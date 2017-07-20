@@ -18,9 +18,6 @@ Required Modules: Requests, lxml, Flask (only necessary if you want to actually 
 
 
 # Future Features
-**Want to request a feature, report a bug, or give general feedback?
-Send me a message on Reddit - /u/overlysalty**
-
 
 - support for weapon/equipment stats  
 
@@ -43,3 +40,9 @@ Send me a message on Reddit - /u/overlysalty**
 
 
 - Unable to load data from certain mirror wiki pages (/wiki/Fanatic vs. /wiki/Chaos_Fanatic)
+
+
+# Contact Me
+**Want to request a feature, report a bug, or give general feedback?**  
+**Send me a message on Reddit - ** */u/overlysalty*
+
