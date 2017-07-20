@@ -18,14 +18,14 @@ Required Modules: Requests, lxml, Flask (only necessary if you want to actually 
 
 
 # Future Features
+###Want to request a feature, report a bug, or give general feedback? Send me a message on Reddit - /u/overlysalty
 - support for weapon/equipment stats
 
-Want to request a feature, report a bug, or give general feedback? Send me a message on Reddit */u/overlysalty*
 
 
 # Command Line Parameters
 
-
+```
 - -h        &nbsp;&nbsp;&nbsp;prints parameters to console
 - -s        &nbsp;&nbsp;&nbsp;runs flask server on local computer to handle GET requests
 - -i        &nbsp;&nbsp;&nbsp;specify local ip to run the server on (default 0.0.0.0)
@@ -34,7 +34,7 @@ Want to request a feature, report a bug, or give general feedback? Send me a mes
 - -o        &nbsp;&nbsp;&nbsp;specify file output path (default NPC_NAME.csv)
 - -w        &nbsp;&nbsp;&nbsp;add this parameter if running from a Windows machine
 - -c        &nbsp;&nbsp;&nbsp;if included, CSV output will not contain image icon URLs
-
+```
 
 # Known Issues: 
 
