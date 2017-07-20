@@ -6,4 +6,3 @@ __pycache__
 *.dat
 nohup.out
 bkp.py
-ogrsflask.py
