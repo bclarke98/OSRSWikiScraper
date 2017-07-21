@@ -83,10 +83,13 @@ if args.s:
         with open('stop.sh', 'w') as pw:
             pw.write('echo "Stopping Server..."\nkill ' + str(os.getpid()) + '\nrm stop.sh')
 
-    # formatted UTC time string for logging
-    def utc_time():
-        return '[' + str(datetime.datetime.utcnow())[:-7] + ' (UTC)]: '
-
+    # formatted EST string for logging 
+    def est_time():
+        s = str(datetime.datetime.utcnow())
+        n = int(s[11:13])
+        n = n - 4 if n - 4 > 0 else 24 - n
+        return '[' + s[:11] + str(n) + s[13:-7] + ' (EST)]: '
+    
     # create flask object
     app = Flask(__name__)
      
@@ -95,7 +98,7 @@ if args.s:
     def handle():
         # log request IPs to see how much this is actually used by the community
         with open('connections.dat', 'a') as fw:
-            fw.write(utc_time() + str(request.environ['REMOTE_ADDR']) + '\n')
+            fw.write(est_time() + str(request.environ['REMOTE_ADDR']) + '\n')
         r = ''
         icon = True
         if request.method == 'GET':
