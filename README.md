@@ -17,6 +17,9 @@ Please note that 'NPC_NAME' must match the OSRS wiki URL for that NPC.
 For example, the wiki URL for green dragons is oldschoolrunescape.wikia.com/wiki/Green_dragon
 If you wanted the drop table for green dragons, you would replace 'NPC_NAME' with Green_dragon.
 
+The first line of the data is formatted as [NPC_NAME],[NPC_IMAGE_URL]
+Subsequent lines are formatted as [Item Image URL],[Item Name],[Quantity],[Rarity]
+
 Unfortunately, this is not being run on a dedicated server, so uptime is not always guarenteed.
 If the server is down and you need it up, feel free to contact me. Details are below.
 
