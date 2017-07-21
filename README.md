@@ -20,7 +20,8 @@ Required Modules: Requests, lxml, Flask (only necessary if you want to actually 
 # Future Features
 
 - support for weapon/equipment stats  
-
+- multiple formats for returned values (csv, json, etc)
+- web front-end for loot tracker + virtual loadouts
 
 
 # Command Line Parameters
