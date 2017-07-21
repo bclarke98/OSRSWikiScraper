@@ -60,3 +60,7 @@ Command Line Parameters
 **Want to request a feature, report a bug, or give general feedback?**  
 Send me a message on Reddit -  */u/overlysalty*
 
+
+# Credits
+Huge thanks to /u/artpicks for inspiring this project. Go check out his loot tracking program!
+
