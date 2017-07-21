@@ -6,27 +6,26 @@ Python3 script that allows for easy access to Oldschool Runescape NPC drops.
 This script was designed to help developers dynamically pull RuneScape NPC drops from the wiki. It can either run a Flask server that receives input via GET requests and outputs directly to the page or can be simply output the drops as a CSV file.
 
 
-If you don't want to run anything locally, you can use the following request: rs.d3x.me:8000/droptable?npc=NPC_NAME
-
-
-The NPC_NAME must match the wiki URL. For example, a green dragon's wiki page is oldschoolrunescape.wikia.com/wiki/Green_dragon
-
-Therefore, NPC_NAME must be Green_dragon.
-
-
-Required Modules: Requests, lxml, Flask (only necessary if you want to actually run the flask server)
-
-
-# Future Features
-
-- support for weapon/equipment stats  
-- multiple formats for returned values (csv, json, etc)
-- web front-end for loot tracker + virtual loadouts
-
-
-# Command Line Parameters
+# Usage & Requirements
 
 ```
+You can use this script without having to download anything.
+Simply send a request to rs.d3x.me:8000/droptable?npc=NPC_NAME
+NPC_NAME must match the OSRS wiki URL for that NPC.
+
+For example, the wiki URL for green dragons is oldschoolrunescape.wikia.com/wiki/Green_dragon
+If you wanted the drop table for green dragons, you would replace NPC_NAME with Green_dragon.
+
+If you prefer to run the script locally, you must have:
+    - Python 3.x
+    - Requests module
+    - lxml module (comes pre-installed with some versions of Python)
+
+If you also want to run your own instance of the OSRSWikiScraper Flask Server, you also must have the Flask module installed.
+
+
+Command Line Parameters
+------------------------------------------------------------------------------------------
 -h        prints parameters to console
 -s        runs flask server on local computer to handle GET requests
 -i        specify local ip to run the server on (default 0.0.0.0)
@@ -36,6 +35,14 @@ Required Modules: Requests, lxml, Flask (only necessary if you want to actually 
 -w        add this parameter if running from a Windows machine
 -c        if included, CSV output will not contain image icon URLs
 ```
+
+
+# Future Features
+
+- support for weapon/equipment stats  
+- multiple formats for returned values (csv, json, etc)
+- web front-end for loot tracker + virtual loadouts
+
 
 # Known Issues: 
 
