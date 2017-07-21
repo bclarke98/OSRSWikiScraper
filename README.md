@@ -18,7 +18,7 @@ For example, the wiki URL for green dragons is oldschoolrunescape.wikia.com/wiki
 If you wanted the drop table for green dragons, you would replace 'NPC_NAME' with Green_dragon.
 
 The first line of the data is formatted as [NPC_NAME],[NPC_IMAGE_URL]
-Subsequent lines are formatted as [Item Image URL],[Item Name],[Quantity],[Rarity]
+Subsequent lines are formatted as [ITEM_IMAGE_URL],[ITEM_NAME],[QUANTITY],[RARITY]
 
 Unfortunately, this is not being run on a dedicated server, so uptime is not always guarenteed.
 If the server is down and you need it up, feel free to contact me. Details are below.
