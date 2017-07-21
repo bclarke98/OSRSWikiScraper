@@ -10,18 +10,24 @@ This script was designed to help developers dynamically pull RuneScape NPC drops
 
 ```
 You can use this script without having to download anything.
-Simply send a request to rs.d3x.me:8000/droptable?npc=NPC_NAME
-NPC_NAME must match the OSRS wiki URL for that NPC.
 
+Simply send a request to "rs.d3x.me:8000/droptable?npc=NPC_NAME"
+
+Please note that 'NPC_NAME' must match the OSRS wiki URL for that NPC.
 For example, the wiki URL for green dragons is oldschoolrunescape.wikia.com/wiki/Green_dragon
-If you wanted the drop table for green dragons, you would replace NPC_NAME with Green_dragon.
+If you wanted the drop table for green dragons, you would replace 'NPC_NAME' with Green_dragon.
+
+Unfortunately, this is not being run on a dedicated server, so uptime is not always guarenteed.
+If the server is down and you need it up, feel free to contact me. Details are below.
 
 If you prefer to run the script locally, you must have:
     - Python 3.x
     - Requests module
     - lxml module (comes pre-installed with some versions of Python)
 
-If you also want to run your own instance of the OSRSWikiScraper Flask Server, you also must have the Flask module installed.
+If you want to run your own server to guarentee uptime when you need it, you also must have:
+    - flask module
+    - access to port forwarding (default port is 8000, see command line parameters below)
 
 
 Command Line Parameters
