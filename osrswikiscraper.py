@@ -4,6 +4,7 @@ import requests
 import sys
 import os
 import datetime
+import time
 import json
 from lxml import html
 
@@ -18,7 +19,7 @@ parser.add_argument('-o', help='specifies file output path (default NPC_NAME.csv
 parser.add_argument('-w', help='add this parameter if running from a Windows machine', action='store_true')
 parser.add_argument('-c', help='if included, CSV output will not contain icon image URLs', action='store_true')
 parser.add_argument('-e', help='equipment item name to search (does not run flask server, saves JSON with output)')
-# parser.add_argument('-aw', help='saves JSON file with every weapon in the game as allweapons.json', action='store_true')
+parser.add_argument('-aw', help='saves JSON file with every weapon in the game as allweapons.json', action='store_true')
 
 args = parser.parse_args()
 
@@ -79,7 +80,11 @@ def get_item_stats(itemname):
         n = content.xpath('//table[contains(@class, "wikitable infobox")]//caption/text()')[0].strip()
     except:
         n = itemname
-    rjson = {'_name':n, 'offensive':{}, 'defensive':{}, 'misc':{}}
+    try:
+        ii = content.xpath('//table[contains(@class, "wikitable infobox")]//td[1]//a/@href')[0]
+    except:
+        ii = 'i.imgur.com/ghLHiQZ.png'
+    rjson = {n:{'icon':ii, 'offensive':{}, 'defensive':{}, 'misc':{}}}
     ts = '//table[contains(@class, "wikitable smallpadding")]'
     titles = content.xpath(ts + '//tr[3]//a/@title')
     titles = [i for i in titles if len(i.strip()) > 0]
@@ -88,18 +93,20 @@ def get_item_stats(itemname):
     defv = content.xpath(ts + '//tr[7]//td/text()')
     defv = [i for i in defv if len(i.strip()) > 0]
     for i in range(len(titles)):
-        rjson['offensive'][titles[i].strip()] = atkv[i].strip()
-        rjson['defensive'][titles[i].strip()] = defv[i].strip()
+        rjson[n]['offensive'][titles[i].strip()] = atkv[i].strip()
+        rjson[n]['defensive'][titles[i].strip()] = defv[i].strip()
     misct = content.xpath(ts + '//tr[9]//a/@title')
     misct = [i for i in misct if len(i.strip()) > 0]
     misct = [j for j in misct if 'eapon' not in j and 'slot' not in j]
     miscv = content.xpath(ts + '/tr[10]//td/text()')
     miscv = [i for i in miscv if len(i.strip()) > 0]
     for i in range(len(misct)):
-        rjson['misc'][misct[i].strip()] = miscv[i].strip()
+        rjson[n]['misc'][misct[i].strip()] = miscv[i].strip()
     return rjson
 
-def get_all_weapons():
+# mode 1: slow but gathers item icons and formats it the same as a single item request
+# mode 2: intended to be faster but containing less info, not yet implemented
+def get_all_weapons(mode=1):
     onehandweapons = 'http://oldschoolrunescape.wikia.com/wiki/Weapons_table'
     twohandweapons = 'http://oldschoolrunescape.wikia.com/wiki/Two-handed_slot_table'
     r1 = requests.get(onehandweapons)
@@ -108,8 +115,19 @@ def get_all_weapons():
     r2c = html.fromstring(r2.content)
     ts = '//table[contains(@class, "wikitable sortable")]//td//a/@title'
     n = r1c.xpath(ts)
-    # continue here
-    # Note: only 2h ranged weapons have Ranged Strength stat
+    if mode == 1:
+        n = n + r2c.xpath(ts)
+        n = sorted(n)
+        path = str(os.getcwd().replace('\\','/')) + '/allitems.json' if args.w else 'allitems.json'
+        with open(path, 'w') as cw:
+            cw.write('{\n')
+        with open(path, 'a') as fw:
+            for i in range(len(n)):
+                ends = ',\n' if i + 1 < len(n) else '\n'
+                fw.write('\n'.join(json.dumps(get_item_stats(n[i]), sort_keys=True, indent=4).split('\n')[1:-1]) + ends)
+                if not args.s:
+                    print('Pulled stats for "%s"' % n[i])
+            fw.write('}')
 
 # if the user wants to run the server
 if args.s:
@@ -134,7 +152,21 @@ if args.s:
     
     # create flask object
     app = Flask(__name__)
-     
+
+    def str_all_items():
+        path = str(os.getcwd().replace('\\','/')) + '/allitems.json' if args.w else 'allitems.json'
+        if os.path.isfile(path):
+            if time.time() - os.stat(path).st_mtime >= 60 * 24 * 7: # last updated > a week ago
+                print('Updating json file...')
+                get_all_weapons()
+        else:
+            print('Creating json file...')
+            get_all_weapons()
+        r = ''
+        with open(path, 'r') as fr:
+            r = fr.read()
+        return r
+
     @app.route('/item', methods=['GET'])
     def handle_i():
         # log request IPs to see how much this is actually used by the community
@@ -146,6 +178,8 @@ if args.s:
             # if there's a value for ?name=, grab it and pass it to get_item_stats
             if len(resp) == 1:
                 r = resp[0].capitalize()
+            else:
+                return str_all_items() 
         return json.dumps(get_item_stats(r), sort_keys=True, indent=4) 
          
     # accept connections at HOSTNAME:8000/droptable
@@ -192,7 +226,7 @@ elif args.e:
         fw.write(json.dumps(get_item_stats(args.e), sort_keys=True, indent=4)) 
         print('Saved file to "%s"' % path)
 elif args.aw:
-    print('Attempting to pull stats for all weapons in OSRS...')
+    print('Attempting to pull stats for all weapons in OSRS.\nThis is going to take a while...')
     get_all_weapons()
     print('Saved weapon data to "allweapons.json"')
 else:

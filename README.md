@@ -5,7 +5,7 @@ It has been updated to pull item statistics as well.
 
 It can be run in one of two ways:
 - as Flask server that receives input via GET requests and outputs directly to the page 
-- as a normal Python script that outputs the drops as a CSV/JSON file
+- as a normal Python script that outputs results as a CSV/JSON file
 
 
 # Usage & Requirements
@@ -24,6 +24,8 @@ Subsequent lines are formatted as [ITEM_IMAGE_URL],[ITEM_NAME],[QUANTITY],[RARIT
 
 If you want to get item stats, change "/droptable?npc=" to "/item?name="
 The stats are returned in JSON format.
+
+If you want the stats for every weapon in OSRS, don't add "?name=" to the request.
 
 Unfortunately, this is not being run on a dedicated server, so uptime is not always guarenteed.
 If the server is down and you need it up, feel free to contact me. Details are below.
@@ -49,6 +51,7 @@ Command Line Parameters
 -w        add this parameter if running from a Windows machine
 -c        if included, CSV output will not contain image icon URLs
 -e        specify equipment item name to search (does not run flask server, saves JSON with output)
+-aw       locally save a JSON file with stats for every weapon in OSRS (warning: takes a long time to run)
 ```
 
 
