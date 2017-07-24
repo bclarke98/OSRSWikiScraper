@@ -7,7 +7,7 @@ import datetime
 import json
 from lxml import html
 
-# handle command line args
+# handle command line arguments
 parser = argparse.ArgumentParser()
 
 parser.add_argument('-s', help='runs flask server on local computer to handle GET requests', action='store_true')
