@@ -4,6 +4,7 @@ import requests
 import sys
 import os
 import datetime
+import json
 from lxml import html
 
 # handle command line args
@@ -13,9 +14,10 @@ parser.add_argument('-s', help='runs flask server on local computer to handle GE
 parser.add_argument('-i', help='specify local ip to run the server on (default 0.0.0.0)', default='0.0.0.0')
 parser.add_argument('-p', help='specify port to run the server on (default 8000)', type=int, default=8000)
 parser.add_argument('-n', help='npc name to search (does not run flask server, saves CSV with output)')
-parser.add_argument('-o', help='specifies file output path (default NPC_NAME.csv)')
+parser.add_argument('-o', help='specifies file output path (default NPC_NAME.csv/.json)')
 parser.add_argument('-w', help='add this parameter if running from a Windows machine', action='store_true')
 parser.add_argument('-c', help='if included, CSV output will not contain icon image URLs', action='store_true')
+parser.add_argument('-e', help='equipment item name to search (does not run flask server, saves JSON with output)')
 
 args = parser.parse_args()
 
@@ -68,6 +70,29 @@ def get_drop_table(boss, icons=True):
     # return the drops
     return csv
 
+def get_item_stats(itemname):
+    wiki = 'http://oldschoolrunescape.wikia.com/wiki/'
+    r = requests.get(wiki + itemname)
+    content = html.fromstring(r.content)
+    try:
+        n = content.xpath('//table[contains(@class, "wikitable infobox")]//caption/text()')[0].strip()
+    except:
+        n = itemname
+    rjson = {'_name':n, 'offensive':{}, 'defensive':{}, 'misc':{}}
+    ts = '//table[contains(@class, "wikitable smallpadding")]'
+    titles = content.xpath(ts + '//tr[3]//a/@title')
+    atkv = content.xpath(ts + '//tr[4]//td/text()')
+    defv = content.xpath(ts + '//tr[7]//td/text()')
+    for i in range(len(titles)):
+        rjson['offensive'][titles[i].strip()] = atkv[i].strip()
+        rjson['defensive'][titles[i].strip()] = defv[i].strip()
+    misct = content.xpath(ts + '//tr[9]//a/@title')
+    misct = [j for j in misct if 'eapon' not in j]
+    miscv = content.xpath(ts + '/tr[10]//td/text()')
+    for i in range(len(misct)):
+        rjson['misc'][misct[i].strip()] = miscv[i].strip()
+    return rjson
+
 
 # if the user wants to run the server
 if args.s:
@@ -93,6 +118,19 @@ if args.s:
     # create flask object
     app = Flask(__name__)
      
+    @app.route('/item', methods=['GET'])
+    def handle_i():
+        # log request IPs to see how much this is actually used by the community
+        with open('connections.dat', 'a') as fw:
+            fw.write(est_time() + str(request.environ['REMOTE_ADDR']) + '\n')
+        r = ''
+        if request.method == 'GET':
+            resp = request.args.getlist('name')
+            # if there's a value for ?name=, grab it and pass it to get_item_stats
+            if len(resp) == 1:
+                r = resp[0].capitalize()
+        return json.dumps(get_item_stats(r), sort_keys=True, indent=4) 
+         
     # accept connections at HOSTNAME:8000/droptable
     @app.route('/droptable', methods=['GET'])
     def handle():
@@ -125,6 +163,18 @@ elif args.n: # if the user only wants to run the script locally
     with open(path, 'w') as fw:
         fw.write(get_drop_table(args.n.capitalize(), not args.c))
         print('Saved file to "%s"' % path)
+elif args.e:
+    print('Searching for stats for item "%s"' % args.e)
+    # create default path based on whether or not the script is running on a windows system
+    path = str(os.getcwd().replace('\\','/')) + '/' + args.e + '.json' if args.w else args.e + '.json'
+    # change path if the user specified a custom path
+    if args.o:
+        path = args.o if '.json' in args.o else args.o + '.json'
+    # save data file
+    with open(path, 'w') as fw:
+        fw.write(json.dumps(get_item_stats(args.e), sort_keys=True, indent=4)) 
+        print('Saved file to "%s"' % path)
+    
 else:
     print('Please specify "-s" to run the server or "-n" to directly search for an npc')
 
