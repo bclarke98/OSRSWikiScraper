@@ -1,7 +1,8 @@
 # OSRS Wiki Scraper
 
 This script was designed to help developers dynamically pull RuneScape NPC drops from the wiki.  
-It has been updated to also pull item statistics as well.
+It has been updated to pull item statistics as well.  
+
 It can be run in one of two ways:
 - as Flask server that receives input via GET requests and outputs directly to the page 
 - as a normal Python script that outputs the drops as a CSV/JSON file
