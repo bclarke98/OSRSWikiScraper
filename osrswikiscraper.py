@@ -18,6 +18,7 @@ parser.add_argument('-o', help='specifies file output path (default NPC_NAME.csv
 parser.add_argument('-w', help='add this parameter if running from a Windows machine', action='store_true')
 parser.add_argument('-c', help='if included, CSV output will not contain icon image URLs', action='store_true')
 parser.add_argument('-e', help='equipment item name to search (does not run flask server, saves JSON with output)')
+# parser.add_argument('-aw', help='saves JSON file with every weapon in the game as allweapons.json', action='store_true')
 
 args = parser.parse_args()
 
@@ -81,18 +82,34 @@ def get_item_stats(itemname):
     rjson = {'_name':n, 'offensive':{}, 'defensive':{}, 'misc':{}}
     ts = '//table[contains(@class, "wikitable smallpadding")]'
     titles = content.xpath(ts + '//tr[3]//a/@title')
+    titles = [i for i in titles if len(i.strip()) > 0]
     atkv = content.xpath(ts + '//tr[4]//td/text()')
+    atkv = [i for i in atkv if len(i.strip()) > 0]
     defv = content.xpath(ts + '//tr[7]//td/text()')
+    defv = [i for i in defv if len(i.strip()) > 0]
     for i in range(len(titles)):
         rjson['offensive'][titles[i].strip()] = atkv[i].strip()
         rjson['defensive'][titles[i].strip()] = defv[i].strip()
     misct = content.xpath(ts + '//tr[9]//a/@title')
-    misct = [j for j in misct if 'eapon' not in j]
+    misct = [i for i in misct if len(i.strip()) > 0]
+    misct = [j for j in misct if 'eapon' not in j and 'slot' not in j]
     miscv = content.xpath(ts + '/tr[10]//td/text()')
+    miscv = [i for i in miscv if len(i.strip()) > 0]
     for i in range(len(misct)):
         rjson['misc'][misct[i].strip()] = miscv[i].strip()
     return rjson
 
+def get_all_weapons():
+    onehandweapons = 'http://oldschoolrunescape.wikia.com/wiki/Weapons_table'
+    twohandweapons = 'http://oldschoolrunescape.wikia.com/wiki/Two-handed_slot_table'
+    r1 = requests.get(onehandweapons)
+    r1c = html.fromstring(r1.content)
+    r2 = requests.get(twohandweapons)
+    r2c = html.fromstring(r2.content)
+    ts = '//table[contains(@class, "wikitable sortable")]//td//a/@title'
+    n = r1c.xpath(ts)
+    # continue here
+    # Note: only 2h ranged weapons have Ranged Strength stat
 
 # if the user wants to run the server
 if args.s:
@@ -174,8 +191,11 @@ elif args.e:
     with open(path, 'w') as fw:
         fw.write(json.dumps(get_item_stats(args.e), sort_keys=True, indent=4)) 
         print('Saved file to "%s"' % path)
-    
+elif args.aw:
+    print('Attempting to pull stats for all weapons in OSRS...')
+    get_all_weapons()
+    print('Saved weapon data to "allweapons.json"')
 else:
-    print('Please specify "-s" to run the server or "-n" to directly search for an npc')
+    print('Please specify how you would like to run this script.\nUse -h or --help to list the options.')
 
 
