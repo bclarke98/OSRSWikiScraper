@@ -155,10 +155,10 @@ if args.s:
 
     def str_all_items():
         path = str(os.getcwd().replace('\\','/')) + '/allitems.json' if args.w else 'allitems.json'
-        if os.path.isfile(path) and time.time() - os.stat(path).st_mtime >= 60 * 60 * 24 * 7: # last updated > a week ago
+        if os.path.isfile(path) and time.time() - os.stat(path).st_mtime >= 60 * 24 * 7: # last updated > a week ago
             print('Updating json file...')
             get_all_weapons()
-        else:
+        elif not os.path.isfile(path):
             print('Creating json file...')
             get_all_weapons()
         r = ''
