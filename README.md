@@ -70,8 +70,8 @@ Command Line Parameters
 
 # Contact Me
 **Want to request a feature, report a bug, or give general feedback?**  
-Send me a message on Reddit -  */u/overlysalty*
-
+Send me a message on Reddit -  */u/overlysalty*  
+Email me - support@d3x.me
 
 # Credits
 Huge thanks to /u/artpicks for inspiring this project. Go check out his loot tracking program!
